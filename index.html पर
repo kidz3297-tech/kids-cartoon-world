@@ -4,6 +4,353 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kids Cartoon World</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f0f8ff;color:#243047}
+header{background:linear-gradient(120deg,#6c5ce7,#00b894);color:white;text-align:center;padding:25px 12px}
+header h1{margin:0;font-size:clamp(26px,5vw,42px)}
+nav{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;background:#fff;padding:12px;position:sticky;top:0;z-index:5;box-shadow:0 2px 8px #ddd}
+button,select,input{font:inherit}
+button{border:0;border-radius:10px;padding:11px 16px;background:#6c5ce7;color:white;cursor:pointer;font-weight:bold}
+button:hover{filter:brightness(.92)}
+nav button{background:#e8e5ff;color:#4937bd}
+main{max-width:1000px;margin:auto;padding:18px}
+.card{background:white;border-radius:16px;padding:20px;margin:16px 0;box-shadow:0 4px 15px #0000000c}
+.hidden{display:none!important}
+input,select{padding:12px;border:1px solid #ccd3df;border-radius:9px;max-width:100%}
+.welcome{text-align:center;padding:45px 20px}
+.welcome input{width:min(100%,320px);display:block;margin:15px auto}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}
+.subject{border:2px solid #eee;border-radius:13px;padding:15px}
+.subject h3{margin-top:0}
+#drawingCanvas{width:100%;height:350px;border:2px dashed #999;border-radius:12px;touch-action:none;background:white;display:block}
+.option{display:block;width:100%;text-align:left;background:#eef0ff;color:#222;margin:9px 0}
+.option.correct{background:#c8f7d5}
+.option.wrong{background:#ffd4d4}
+footer{text-align:center;padding:25px;color:#596579}
+.small{color:#657087;font-size:14px}
+</style>
+</head>
+<body>
+<header>
+  <h1>🎨 Kids Cartoon World 🌈</h1>
+  <p>Learn • Play • Draw • Discover!</p>
+</header>
+
+<nav>
+  <button onclick="showSection('home')">🏠 Home</button>
+  <button onclick="showSection('quiz')">🧠 Quiz</button>
+  <button onclick="showSection('learning')">📚 Learning</button>
+  <button onclick="showSection('drawing')">🎨 Drawing</button>
+</nav>
+
+<main>
+<section id="home" class="card welcome">
+  <div id="nameArea">
+    <h2>Welcome, Little Explorer! 🌟</h2>
+    <p>Enter your name to begin your adventure.</p>
+    <input id="playerName" type="text" maxlength="30" placeholder="Enter your name">
+    <button id="startButton" type="button">🚀 Start Learning</button>
+    <p id="nameError" style="color:#d63031" aria-live="polite"></p>
+  </div>
+  <div id="welcomeArea" class="hidden">
+    <h2 id="welcomeMessage"></h2>
+    <p>Your learning adventure starts now!</p>
+    <button onclick="showSection('quiz')">Start a Quiz 🧠</button>
+    <button onclick="showSection('learning')">Explore Learning 📚</button>
+  </div>
+</section>
+
+<section id="quiz" class="hidden">
+  <div class="card">
+    <h2>🧠 Quiz Zone</h2>
+    <label>Subject:
+      <select id="subjectSelect">
+        <option>Science</option>
+        <option>Mathematics</option>
+        <option>Social Studies</option>
+        <option>English Grammar</option>
+        <option>Hindi</option>
+        <option>Computer</option>
+        <option>General Knowledge</option>
+        <option>Environmental Studies</option>
+        <option>Logical Reasoning</option>
+        <option>Financial Literacy</option>
+      </select>
+    </label>
+    <br><br>
+    <label>Level:
+      <select id="levelSelect">
+        <option>Easy</option><option>Medium</option><option>Hard</option>
+      </select>
+    </label>
+    <br><br>
+    <button id="startQuizButton" type="button">Start Quiz</button>
+  </div>
+  <div id="quizBox" class="card hidden" aria-live="polite">
+    <p id="quizProgress"></p>
+    <h3 id="questionText"></h3>
+    <div id="options"></div>
+    <p id="feedback"></p>
+    <button id="nextButton" class="hidden" type="button">Next Question ➜</button>
+    <div id="quizResult" class="hidden"></div>
+  </div>
+</section>
+
+<section id="learning" class="hidden">
+  <div class="card">
+    <h2>📚 Learning Corner</h2>
+    <p>Discover something new every day!</p>
+    <div class="grid">
+      <div class="subject"><h3>🔬 Science & Space</h3><p>Earth moves around the Sun. The Moon moves around Earth.</p></div>
+      <div class="subject"><h3>🌍 World Geography</h3><p>India's capital is New Delhi. Japan's capital is Tokyo.</p></div>
+      <div class="subject"><h3>🦖 Dinosaurs</h3><p>Dinosaurs lived millions of years ago. Birds are their living descendants.</p></div>
+      <div class="subject"><h3>📖 English</h3><p>Learn one new word daily. “Curious” means eager to learn.</p></div>
+      <div class="subject"><h3>➗ Maths Tricks</h3><p>Multiplying a number by 10 adds a zero to whole numbers.</p></div>
+      <div class="subject"><h3>💻 Coding</h3><p>HTML helps create the structure of websites.</p></div>
+      <div class="subject"><h3>🌱 Environment</h3><p>Reduce waste, reuse things, and recycle when possible.</p></div>
+      <div class="subject"><h3>💡 Daily Challenge</h3><p>Think of three ways to save water at home.</p></div>
+    </div>
+    <p>More learning: <a href="https://www.khanacademy.org/" target="_blank" rel="noopener">Khan Academy</a> ·
+    <a href="https://spaceplace.nasa.gov/" target="_blank" rel="noopener">NASA Space Place</a></p>
+  </div>
+</section>
+
+<section id="drawing" class="hidden">
+  <div class="card">
+    <h2>🎨 Drawing Corner</h2>
+    <p>Draw using your finger on a phone or your mouse on a computer!</p>
+    <div class="grid">
+      <label>Colour <input id="brushColor" type="color" value="#6c5ce7"></label>
+      <label>Brush size <input id="brushSize" type="range" min="1" max="30" value="5"></label>
+    </div>
+    <br>
+    <button id="eraserButton" type="button">🧽 Eraser</button>
+    <button id="brushButton" type="button">🖌️ Brush</button>
+    <button id="clearButton" type="button">🗑️ Clear</button>
+    <button id="downloadButton" type="button">⬇️ Save Drawing</button>
+    <br><br>
+    <canvas id="drawingCanvas"></canvas>
+  </div>
+</section>
+</main>
+
+<footer>Made with ❤️ for curious kids | Kids Cartoon World</footer>
+
+<script>
+"use strict";
+
+function showSection(id){
+  document.querySelectorAll("main > section").forEach(section=>{
+    section.classList.add("hidden");
+  });
+  document.getElementById(id).classList.remove("hidden");
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+const playerNameInput=document.getElementById("playerName");
+const nameError=document.getElementById("nameError");
+
+document.getElementById("startButton").addEventListener("click",()=>{
+  const name=playerNameInput.value.trim();
+  if(!name){
+    nameError.textContent="Please enter your name first.";
+    playerNameInput.focus();
+    return;
+  }
+  nameError.textContent="";
+  document.getElementById("nameArea").classList.add("hidden");
+  document.getElementById("welcomeArea").classList.remove("hidden");
+  document.getElementById("welcomeMessage").textContent="Hello, "+name+"! 🎉";
+});
+
+playerNameInput.addEventListener("keydown",event=>{
+  if(event.key==="Enter") document.getElementById("startButton").click();
+});
+
+/* Sample question bank. Add more questions to expand each subject and level. */
+const questionBank={
+"Science":{
+"Easy":[
+{q:"Which planet do we live on?",o:["Mars","Earth","Venus","Jupiter"],a:1},
+{q:"Which organ pumps blood?",o:["Lungs","Brain","Heart","Stomach"],a:2},
+{q:"What do plants absorb from sunlight?",o:["Energy","Soil","Sound","Plastic"],a:0},
+{q:"Which gas do humans need to breathe?",o:["Helium","Oxygen","Neon","Hydrogen"],a:1},
+{q:"Water freezes at what temperature (°C)?",o:["0","50","100","20"],a:0}],
+"Medium":[
+{q:"Which organelle makes food in plant cells?",o:["Nucleus","Chloroplast","Ribosome","Vacuole"],a:1},
+{q:"What is the SI unit of force?",o:["Joule","Watt","Newton","Pascal"],a:2},
+{q:"Which gas do plants use in photosynthesis?",o:["Oxygen","Carbon dioxide","Nitrogen","Hydrogen"],a:1},
+{q:"Which blood cells help fight infection?",o:["Red cells","White cells","Platelets","None"],a:1},
+{q:"What is the centre of an atom called?",o:["Shell","Nucleus","Cell","Core layer"],a:1}],
+"Hard":[
+{q:"What is the SI unit of power?",o:["Joule","Newton","Watt","Volt"],a:2},
+{q:"Which particle has a negative charge?",o:["Proton","Neutron","Electron","Nucleus"],a:2},
+{q:"What is the approximate speed of light?",o:["300,000 km/s","30 km/s","3,000 km/s","1,000 km/s"],a:0},
+{q:"Which law states that every action has an equal and opposite reaction?",o:["Newton's First","Newton's Second","Newton's Third","Law of Gravity"],a:2},
+{q:"What is the pH of a neutral solution at room temperature?",o:["1","7","10","14"],a:1}]
+},
+"Mathematics":{
+"Easy":[
+{q:"What is 7 + 5?",o:["10","11","12","13"],a:2},
+{q:"What is 9 × 6?",o:["45","54","63","56"],a:1},
+{q:"How many sides does a triangle have?",o:["2","3","4","5"],a:1},
+{q:"What is half of 20?",o:["5","10","15","20"],a:1},
+{q:"What is 100 ÷ 10?",o:["1","5","10","20"],a:2}],
+"Medium":[
+{q:"What is 12²?",o:["124","144","122","24"],a:1},
+{q:"What is the perimeter of a square of side 5 cm?",o:["10 cm","15 cm","20 cm","25 cm"],a:2},
+{q:"What is 3/4 of 20?",o:["5","10","15","18"],a:2},
+{q:"What is the value of 2x if x = 7?",o:["9","12","14","21"],a:2},
+{q:"What is the sum of angles in a triangle?",o:["90°","180°","270°","360°"],a:1}],
+"Hard":[
+{q:"Solve: 3x + 5 = 20.",o:["3","5","7","10"],a:1},
+{q:"What is √169?",o:["11","12","13","14"],a:2},
+{q:"What is the area of a circle?",o:["2πr","πr²","πd","r²"],a:1},
+{q:"What is the cube of 4?",o:["16","32","64","48"],a:2},
+{q:"What is the probability of heads on a fair coin?",o:["1/4","1/3","1/2","1"],a:2}]
+},
+"Social Studies":{
+"Easy":[
+{q:"What is the capital of India?",o:["Mumbai","New Delhi","Kolkata","Chennai"],a:1},
+{q:"Which is the largest ocean?",o:["Atlantic","Indian","Arctic","Pacific"],a:3},
+{q:"India celebrates Independence Day on:",o:["26 January","15 August","2 October","14 November"],a:1},
+{q:"Which planet is known as the Red Planet?",o:["Earth","Mars","Saturn","Mercury"],a:1},
+{q:"What is a map used for?",o:["Cooking","Showing places","Measuring weight","Telling jokes"],a:1}],
+"Medium":[
+{q:"How many houses are there in India's Parliament?",o:["One","Two","Three","Four"],a:1},
+{q:"What is the Constitution?",o:["A rulebook for a country","A map","A poem","A newspaper"],a:0},
+{q:"Which imaginary line divides Earth into Northern and Southern Hemispheres?",o:["Tropic of Cancer","Equator","Prime Meridian","Arctic Circle"],a:1},
+{q:"Which is the largest continent?",o:["Africa","Europe","Asia","Australia"],a:2},
+{q:"Who studies the past using historical evidence?",o:["Historian","Astronaut","Chef","Pilot"],a:0}],
+"Hard":[
+{q:"Which is the lower house of India's Parliament?",o:["Rajya Sabha","Lok Sabha","Supreme Court","Vidhan Parishad"],a:1},
+{q:"The Prime Meridian is at approximately:",o:["0° longitude","0° latitude","90° latitude","180° latitude"],a:0},
+{q:"Which movement began in 1942 in India?",o:["Non-Cooperation","Quit India","Swadeshi only","Khilafat only"],a:1},
+{q:"What does democracy mean?",o:["Rule by one king","Rule by the people","Rule by the army","Rule by judges only"],a:1},
+{q:"Which document sets out the basic principles of Indian government?",o:["Constitution","Atlas","Diary","Census form"],a:0}]
+},
+"English Grammar":{
+"Easy":[
+{q:"Choose the noun: 'The cat sleeps.'",o:["The","Cat","Sleeps","None"],a:1},
+{q:"What is the plural of 'child'?",o:["Childs","Children","Childes","Childrens"],a:1},
+{q:"Choose the correct article: ___ apple.",o:["A","An","Thee","No article"],a:1},
+{q:"What is the past tense of 'go'?",o:["Goed","Going","Went","Gone"],a:2},
+{q:"Which word is an adjective?",o:["Beautiful","Run","Quickly","Under"],a:0}],
+"Medium":[
+{q:"Choose the correct sentence.",o:["She go to school.","She goes to school.","She going school.","She gone school."],a:1},
+{q:"Identify the pronoun: 'They are playing.'",o:["Are","Playing","They","None"],a:2},
+{q:"What is the past participle of 'write'?",o:["Wrote","Written","Writing","Writes"],a:1},
+{q:"Choose the adverb.",o:["Slowly","Blue","Table","Honest"],a:0},
+{q:"Which tense is 'I have finished my work'?",o:["Simple past","Present perfect","Past perfect","Future"],a:1}],
+"Hard":[
+{q:"Change to indirect speech: He said, 'I am tired.'",o:["He said that he was tired.","He says he tired.","He said I am tired.","He said that he is tire."],a:0},
+{q:"Choose the passive voice: 'They built the house.'",o:["The house built them.","The house was built by them.","The house is building.","They were built."],a:1},
+{q:"Choose the correct conditional.",o:["If I had known, I would have helped.","If I know, I would helped.","If I knew, I will helped.","If I had know, I help."],a:0},
+{q:"Identify the conjunction: 'I stayed home because it rained.'",o:["Stayed","Home","Because","Rained"],a:2},
+{q:"Choose the correct form.",o:["Neither of them are ready.","Neither of them is ready.","Neither them is ready.","Neither is them ready."],a:1}]
+},
+"Hindi":{
+"Easy":[
+{q:"'सूर्य' का पर्यायवाची कौन-सा है?",o:["चंद्र","रवि","जल","वायु"],a:1},
+{q:"'दिन' का विलोम क्या है?",o:["सुबह","रात","प्रकाश","समय"],a:1},
+{q:"'लड़का' का बहुवचन क्या है?",o:["लड़की","लड़के","लड़कापन","लड़कों का"],a:1},
+{q:"'जल' का अर्थ क्या है?",o:["आग","पानी","हवा","मिट्टी"],a:1},
+{q:"वर्णमाला में स्वर का उदाहरण कौन है?",o:["क","ग","अ","च"],a:2}],
+"Medium":[
+{q:"'सुंदर' का विलोम क्या है?",o:["अच्छा","कुरूप","मधुर","कोमल"],a:1},
+{q:"'कमल' का पर्यायवाची कौन है?",o:["पंकज","पर्वत","आकाश","नदी"],a:0},
+{q:"संज्ञा किसका नाम बताती है?",o:["केवल काम","व्यक्ति, वस्तु, स्थान या भाव","केवल रंग","केवल संख्या"],a:1},
+{q:"'मैं पढ़ता हूँ' किस काल का उदाहरण है?",o:["भूतकाल","वर्तमान काल","भविष्य काल","इनमें से कोई नहीं"],a:1},
+{q:"'विद्यालय' का अर्थ क्या है?",o:["अस्पताल","स्कूल","बाजार","घर"],a:1}],
+"Hard":[
+{q:"'नाक कटना' मुहावरे का अर्थ क्या है?",o:["चोट लगना","अपमान होना","खुश होना","बीमार होना"],a:1},
+{q:"'जो कभी न मरे' के लिए एक शब्द है:",o:["अमर","अज्ञानी","अनजान","असत्य"],a:0},
+{q:"'आँखों का तारा' का अर्थ है:",o:["बहुत प्रिय","बहुत दूर","बहुत तेज","बहुत छोटा"],a:0},
+{q:"'पुस्तकालय' का अर्थ क्या है?",o:["खेल का मैदान","पुस्तकों का स्थान","भोजनालय","कार्यालय"],a:1},
+{q:"'जल्दी' का समानार्थी शब्द कौन-सा है?",o:["शीघ्र","धीरे","देर","रुककर"],a:0}]
+},
+"Computer":{
+"Easy":[
+{q:"What does CPU stand for?",o:["Central Processing Unit","Computer Power User","Central Print Unit","Control Program Utility"],a:0},
+{q:"Which device is used to type?",o:["Monitor","Keyboard","Speaker","Printer"],a:1},
+{q:"Which device displays pictures?",o:["Monitor","Mouse","Microphone","Scanner"],a:0},
+{q:"What is a computer mouse used for?",o:["Pointing and clicking","Cooking","Printing paper","Playing sound only"],a:0},
+{q:"Which is an input device?",o:["Monitor","Speaker","Keyboard","Projector"],a:2}],
+"Medium":[
+{q:"What does HTML help create?",o:["Web pages","Food","Electricity","Paint"],a:0},
+{q:"Which is an operating system?",o:["Windows","Google Search","HTML tag","Keyboard"],a:0},
+{q:"What does URL identify?",o:["A web address","A computer cable","A battery","A keyboard key"],a:0},
+{q:"Which key usually starts a new line?",o:["Shift","Enter","Caps Lock","Esc"],a:1},
+{q:"What is a strong password?",o:["12345","Your name only","A long, unique combination","password"],a:2}],
+"Hard":[
+{q:"What does RAM stand for?",o:["Random Access Memory","Read All Memory","Rapid Action Machine","Remote Access Monitor"],a:0},
+{q:"Which number system uses only 0 and 1?",o:["Decimal","Binary","Roman","Hexadecimal only"],a:1},
+{q:"What is phishing?",o:["A type of online scam","A printer setting","A drawing tool","A file format"],a:0},
+{q:"What is an algorithm?",o:["Step-by-step instructions","A screen","A cable","A computer brand"],a:0},
+{q:"Which HTML tag creates a hyperlink?",o:["<p>","<a>","<h1>","<img>"],a:1}]
+},
+"General Knowledge":{
+"Easy":[
+{q:"How many days are there in a week?",o:["5","6","7","8"],a:2},
+{q:"Which animal is called the king of the jungle?",o:["Tiger","Lion","Elephant","Horse"],a:1},
+{q:"What is India's national bird?",o:["Parrot","Peacock","Eagle","Crow"],a:1},
+{q:"How many colours are commonly named in a rainbow?",o:["5","6","7","8"],a:2},
+{q:"Which is Earth's natural satellite?",o:["Sun","Moon","Mars","Venus"],a:1}],
+"Medium":[
+{q:"Which is the largest planet in our solar system?",o:["Earth","Saturn","Jupiter","Neptune"],a:2},
+{q:"What is the currency of Japan?",o:["Yuan","Yen","Won","Rupee"],a:1},
+{q:"Which ocean lies between Africa and Australia?",o:["Atlantic","Indian","Arctic","Southern only"],a:1},
+{q:"Which is the fastest land animal?",o:["Lion","Cheetah","Horse","Wolf"],a:1},
+{q:"How many players are on a cricket team on the field?",o:["9","10","11","12"],a:2}],
+"Hard":[
+{q:"Which gas is most abundant in Earth's atmosphere?",o:["Oxygen","Nitrogen","Carbon dioxide","Hydrogen"],a:1},
+{q:"Which is the smallest continent by land area?",o:["Europe","Australia","South America","Antarctica"],a:1},
+{q:"What is the chemical symbol for gold?",o:["Ag","Gd","Au","Go"],a:2},
+{q:"Which instrument measures atmospheric pressure?",o:["Thermometer","Barometer","Hygrometer","Compass"],a:1},
+{q:"Which planet has prominent rings?",o:["Mercury","Mars","Saturn","Venus"],a:2}]
+},
+"Environmental Studies":{
+"Easy":[
+{q:"Which item can be recycled?",o:["Clean paper","Smoke","Sunlight","Sound"],a:0},
+{q:"Which is a source of renewable energy?",o:["Coal","Sunlight","Petrol","Diesel"],a:1},
+{q:"What should we do when leaving a room?",o:["Leave lights on","Turn off unnecessary lights","Waste water","Open every tap"],a:1},
+{q:"Which is a living thing?",o:["Rock","Tree","Chair","Bottle"],a:1},
+{q:"What do plants release during photosynthesis?",o:["Oxygen","Plastic","Smoke","Metal"],a:0}],
+"Medium":[
+{q:"What is compost made from?",o:["Organic waste","Glass only","Metal only","Petrol"],a:0},
+{q:"Which gas contributes to global warming?",o:["Carbon dioxide","Helium only","Neon","Argon only"],a:0},
+{q:"What does biodiversity mean?",o:["Variety of life","Only trees","Only rocks","Weather forecast"],a:0},
+{q:"Which practice conserves water?",o:["Fixing leaking taps","Leaving taps running","Washing roads daily","Throwing rubbish in rivers"],a:0},
+{q:"Which layer helps protect Earth from harmful UV rays?",o:["Ozone layer","Soil layer","Cloud layer only","Ocean floor"],a:0}],
+"Hard":[
+{q:"What is the main cause of human-driven climate change?",o:["Greenhouse gas emissions","Moonlight","Earth's rotation","Ocean tides alone"],a:0},
+{q:"What is an ecosystem?",o:["Living things interacting with their environment","A single stone","A weather app","Only a forest tree"],a:0},
+{q:"What does sustainable use mean?",o:["Using resources responsibly for the future","Using everything immediately","Never recycling","Wasting energy"],a:0},
+{q:"Which is a greenhouse gas?",o:["Methane","Oxygen only","Neon","Argon"],a:0},
+{q:"Why are wetlands important?",o:["They support wildlife and help manage water","They have no ecological role","They create plastic","They stop all rain"],a:0}]
+},
+"Logical Reasoning":{
+"Easy":[
+{q:"What comes next: 2, 4, 6, 8, __?",o:["9","10","11","12"],a:1},
+{q:"Which one is different?",o:["Apple","Banana","Mango","Carrot"],a:3},
+{q:"If today is Monday, tomorrow is:",o:["Sunday","Tuesday","Friday","Saturday"],a:1},
+{q:"Which shape has three sides?",o:["Square","Circle","Triangle","Rectangle"],a:2},
+{q:"What comes next: A, B, C, __?",o:["D","E","G","Z"],a:0}],
+"Medium":[
+{q:"What comes next: 5, 10, 15, 20, __?",o:["22","25","30","35"],a:1},
+{q:"If all roses are flowers, which must be true?",o:["All flowers are roses","Roses are flowers","No roses are flowers","All plants are roses"],a:1},
+{q:"Find the odd number: 3, 6, 9, 11, 12.",o:["3","6","11","12"],a:2},
+{q:"If CAT is coded as DBU (each letter moves forward one), DOG is:",o:["EPH","CNG","FQI","EOG"],a:0},
+{q:"How many months have 28 days?",o:["1","2","6","12"],a:3}],
+"Hard":[
+{q:"What comes next: 1, 4, 9, 16, __?",o:["20","24","25","36"],a:2},
+{q:"If 4 machines make 4 toys in 4 minute<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kids Cartoon World</title>
 
 <style>
 * {
