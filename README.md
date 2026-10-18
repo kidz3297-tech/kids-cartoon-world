@@ -2,6 +2,517 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kids Cartoon World</title>
+
+<style>
+:root {
+  --purple: #6157e8;
+  --blue: #14b8c9;
+  --ink: #263238;
+  --paper: #f3f7ff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+}
+
+header {
+  background: linear-gradient(120deg, #6558ee, #10b9c8);
+  color: white;
+  text-align: center;
+  padding: 25px 14px;
+}
+
+header h1 {
+  margin: 0;
+  font-size: clamp(25px, 5vw, 38px);
+}
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  justify-content: center;
+  background: #202b3a;
+  padding: 10px;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+
+button, select, input {
+  font: inherit;
+}
+
+nav button, .btn {
+  border: 0;
+  border-radius: 10px;
+  padding: 10px 13px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+nav button {
+  background: white;
+  color: #263238;
+}
+
+main {
+  max-width: 1100px;
+  margin: auto;
+  padding: 15px;
+}
+
+section {
+  display: none;
+}
+
+section.active {
+  display: block;
+}
+
+.card {
+  background: white;
+  border-radius: 16px;
+  padding: 18px;
+  margin: 13px 0;
+  box-shadow: 0 4px 16px #17255412;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+h2 {
+  color: #5145cd;
+}
+
+.emoji {
+  font-size: 36px;
+}
+
+.btn {
+  background: var(--purple);
+  color: white;
+  margin: 4px 3px;
+}
+
+.btn.secondary {
+  background: #e5e7eb;
+  color: #202b3a;
+}
+
+input, select {
+  padding: 9px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  max-width: 100%;
+}
+
+label {
+  display: inline-block;
+  margin: 7px 4px;
+  font-weight: bold;
+}
+
+#canvas {
+  display: block;
+  width: 100%;
+  height: 390px;
+  background: white;
+  border: 2px solid #6558ee;
+  border-radius: 10px;
+  touch-action: none;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin: 8px 0;
+}
+
+.fact {
+  border-left: 4px solid var(--blue);
+  padding: 9px 12px;
+  background: #f0fdff;
+  border-radius: 6px;
+  margin: 10px 0;
+}
+
+.answer {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: #eef2ff;
+  color: #202b3a;
+  border: 2px solid #dbe4ff;
+  padding: 12px;
+  margin: 8px 0;
+  border-radius: 9px;
+  cursor: pointer;
+}
+
+.answer:disabled {
+  cursor: default;
+}
+
+.answer.correct {
+  border-color: #16a34a;
+  background: #dcfce7;
+}
+
+.answer.wrong {
+  border-color: #dc2626;
+  background: #fee2e2;
+}
+
+.small {
+  font-size: 13px;
+  color: #64748b;
+}
+
+.resource {
+  display: inline-block;
+  margin: 5px 8px;
+  color: #4338ca;
+  font-weight: bold;
+}
+
+footer {
+  text-align: center;
+  background: #202b3a;
+  color: white;
+  padding: 18px;
+  margin-top: 20px;
+}
+
+@media(max-width: 600px) {
+  main {
+    padding: 9px;
+  }
+
+  #canvas {
+    height: 320px;
+  }
+
+  .card {
+    padding: 13px;
+  }
+
+  nav {
+    position: static;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>🌈 Kids Cartoon World 🌈</h1>
+  <p>Learn • Draw • Play • Discover!</p>
+</header>
+
+<nav>
+  <button onclick="showPage('home')">🏠 Home</button>
+  <button onclick="showPage('drawing')">🎨 Drawing Studio</button>
+  <button onclick="showPage('learning')">🌍 Learning Corner</button>
+  <button onclick="showPage('quiz')">🧠 Quiz Game</button>
+</nav>
+
+<main>
+
+<!-- HOME PAGE -->
+<section id="home" class="active">
+
+<div class="card" style="text-align:center">
+  <div style="font-size:60px">🚀 🐼 🦄</div>
+
+  <h2>Welcome to Kids Cartoon World!</h2>
+
+  <p>
+    A friendly place to explore knowledge,
+    make art and practise your skills.
+  </p>
+
+  <button class="btn" onclick="showPage('drawing')">
+    Start Drawing
+  </button>
+
+  <button class="btn" onclick="showPage('learning')">
+    Explore Learning
+  </button>
+
+  <button class="btn" onclick="showPage('quiz')">
+    Play a Quiz
+  </button>
+</div>
+
+<div class="grid">
+
+  <div class="card">
+    <div class="emoji">🎨</div>
+    <h3>Drawing Studio</h3>
+    <p>Use colours, shapes, text, undo and download your artwork.</p>
+  </div>
+
+  <div class="card">
+    <div class="emoji">🌎</div>
+    <h3>Learning Corner</h3>
+    <p>Explore science, space, geography, history and languages.</p>
+  </div>
+
+  <div class="card">
+    <div class="emoji">🏆</div>
+    <h3>Quiz Challenge</h3>
+    <p>Choose a subject, answer questions and check your score.</p>
+  </div>
+
+</div>
+</section>
+
+<!-- DRAWING STUDIO -->
+<section id="drawing">
+
+<h2>🎨 Drawing Studio</h2>
+
+<div class="card">
+
+<p>Draw with your finger on a phone or mouse on a computer.</p>
+
+<div class="toolbar">
+
+<label>
+Colour
+<input type="color" id="colour" value="#ff3b70">
+</label>
+
+<label>
+Brush size
+<input type="range" id="brush" min="1" max="35" value="6">
+</label>
+
+<label>
+Tool
+<select id="tool">
+  <option value="pen">Brush</option>
+  <option value="eraser">Eraser</option>
+  <option value="line">Line</option>
+  <option value="rect">Rectangle</option>
+  <option value="circle">Circle</option>
+</select>
+</label>
+
+</div>
+
+<div class="toolbar">
+
+<input id="textInput" placeholder="Type text to add">
+
+<button class="btn" onclick="addText()">Add Text</button>
+
+<button class="btn secondary" onclick="undo()">↶ Undo</button>
+
+<button class="btn secondary" onclick="clearCanvas()">🗑 Clear</button>
+
+<button class="btn" onclick="downloadArt()">⬇ Download PNG</button>
+
+</div>
+
+<canvas id="canvas"></canvas>
+
+<p class="small">
+Tip: Use Undo to remove your last drawing.
+Download saves your artwork as a PNG image.
+</p>
+
+</div>
+</section>
+
+<!-- LEARNING CORNER -->
+<section id="learning">
+
+<h2>🌍 Learning Corner</h2>
+
+<p>Discover interesting facts about our world!</p>
+
+<div class="grid">
+
+<div class="card">
+  <div class="emoji">🔬</div>
+  <h3>Science</h3>
+  <div class="fact">
+    Plants use sunlight, water and carbon dioxide to make food through photosynthesis.
+  </div>
+  <div class="fact">
+    A cell is the basic structural and functional unit of living things.
+  </div>
+  <div class="fact">
+    Water boils at about 100°C at standard atmospheric pressure.
+  </div>
+</div>
+
+<div class="card">
+  <div class="emoji">🪐</div>
+  <h3>Space</h3>
+  <div class="fact">
+    The Sun is a star at the centre of our Solar System.
+  </div>
+  <div class="fact">
+    Jupiter is the largest planet in our Solar System.
+  </div>
+  <div class="fact">
+    A light-year measures distance, not time.
+  </div>
+</div>
+
+<div class="card">
+  <div class="emoji">🌏</div>
+  <h3>World Geography</h3>
+  <div class="fact">
+    There are seven commonly recognised continents.
+  </div>
+  <div class="fact">
+    The Pacific Ocean is the largest ocean on Earth.
+  </div>
+  <div class="fact">
+    Mount Everest is the highest mountain above sea level.
+  </div>
+</div>
+
+<div class="card">
+  <div class="emoji">🏛️</div>
+  <h3>History & Civics</h3>
+  <div class="fact">
+    History studies people and events of the past using evidence.
+  </div>
+  <div class="fact">
+    In a democracy, citizens help choose their representatives.
+  </div>
+  <div class="fact">
+    A Constitution sets out important rules and principles for a country.
+  </div>
+</div>
+
+<div class="card">
+  <div class="emoji">🦁</div>
+  <h3>Animals & Nature</h3>
+  <div class="fact">
+    Dolphins are mammals, not fish.
+  </div>
+  <div class="fact">
+    Bees help pollinate many flowering plants.
+  </div>
+  <div class="fact">
+    Saving water and reducing waste help protect nature.
+  </div>
+</div>
+
+<div class="card">
+  <div class="emoji">➗</div>
+  <h3>Mathematics</h3>
+  <div class="fact">
+    The interior angles of a triangle add up to 180°.
+  </div>
+  <div class="fact">
+    A square has four equal sides and four right angles.
+  </div>
+  <div class="fact">
+    A prime number has exactly two positive factors.
+  </div>
+</div>
+
+<div class="card">
+  <div class="emoji">🗣️</div>
+  <h3>English & Hindi</h3>
+  <div class="fact">
+    A noun names a person, place, thing or idea.
+  </div>
+  <div class="fact">
+    A verb often expresses an action or state of being.
+  </div>
+  <div class="fact">
+    Reading daily helps build vocabulary.
+  </div>
+</div>
+
+<div class="card">
+  <div class="emoji">💻</div>
+  <h3>Computers & Coding</h3>
+  <div class="fact">
+    An algorithm is a step-by-step method for solving a problem.
+  </div>
+  <div class="fact">
+    HTML gives structure to many web pages.
+  </div>
+  <div class="fact">
+    Never share passwords or private information online.
+  </div>
+</div>
+
+<div class="card">
+  <div class="emoji">💰</div>
+  <h3>Financial Literacy</h3>
+  <div class="fact">
+    A budget is a plan for money coming in and money going out.
+  </div>
+  <div class="fact">
+    Saving means keeping money for a future need or goal.
+  </div>
+  <div class="fact">
+    Compare prices and quality before buying something.
+  </div>
+</div>
+
+<div class="card">
+  <div class="emoji">🧩</div>
+  <h3>Logical Reasoning</h3>
+  <div class="fact">
+    Look for patterns when solving number sequences.
+  </div>
+  <div class="fact">
+    Check all clues before choosing an answer.
+  </div>
+  <div class="fact">
+    Breaking a big problem into smaller steps can make it easier.
+  </div>
+</div>
+
+</div>
+
+<div class="card">
+
+<h3>⭐ Helpful Learning Websites</h3>
+
+<a class="resource" href="https://www.khanacademy.org/" target="_blank" rel="noopener">Khan Academy</a>
+
+<a class="resource" href="https://spaceplace.nasa.gov/" target="_blank" rel="noopener">NASA Space Place</a>
+
+<a class="resource" href="https://www.natgeokids.com/" target="_blank" rel="noopener">National Geographic Kids</a>
+
+<a class="resource" href="https://www.britannica.com/kids" target="_blank" rel="noopener">Britannica Kids</a>
+
+<a class="resource" href="https://code.org/" target="_blank" rel="noopener">Code.org</a>
+
+<a class="resource" href="https://www.un.org/en/" target="_blank" rel="noopener">United Nations</a>
+
+</div>
+</section><!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kids Cartoon World</title>
 <style>
