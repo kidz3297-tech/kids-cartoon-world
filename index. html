@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kids Cartoon World</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background: #eaf7ff;
+  margin: 0;
+  padding: 20px;
+}
+
+.card {
+  background: white;
+  max-width: 500px;
+  margin: 30px auto;
+  padding: 25px;
+  border-radius: 20px;
+  box-shadow: 0 4px 15px #ccc;
+}
+
+input {
+  padding: 12px;
+  width: 80%;
+  border: 1px solid #aaa;
+  border-radius: 8px;
+  margin: 10px;
+}
+
+button {
+  background: #6c5ce7;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 10px;
+  margin: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button:active {
+  background: #00b894;
+}
+
+#message {
+  color: #008060;
+  font-weight: bold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <h1>🎨 Kids Cartoon World 🌈</h1>
+  <h2>Welcome, Little Explorer!</h2>
+
+  <input id="name" type="text" placeholder="Enter your name">
+
+  <br>
+
+  <button id="startButton">🚀 Start Learning</button>
+
+  <p id="message"></p>
+
+  <div id="menu" hidden>
+    <h2 id="welcome"></h2>
+    <button id="quizButton">🧠 Quiz</button>
+    <button id="learnButton">📚 Learning</button>
+    <button id="drawButton">🎨 Drawing</button>
+  </div>
+
+  <div id="content"></div>
+</div>
+
+<script>
+(function () {
+  const nameInput = document.getElementById("name");
+  const message = document.getElementById("message");
+  const menu = document.getElementById("menu");
+  const welcome = document.getElementById("welcome");
+  const content = document.getElementById("content");
+
+  document.getElementById("startButton").addEventListener("click", function () {
+    const name = nameInput.value.trim();
+
+    if (name === "") {
+      message.textContent = "Please enter your name first!";
+      nameInput.focus();
+      return;
+    }
+
+    message.textContent = "";
+    welcome.textContent = "Hello, " + name + "! 🎉";
+    menu.hidden = false;
+  });
+
+  document.getElementById("quizButton").addEventListener("click", function () {
+    content.innerHTML = `
+      <h2>🧠 Quiz Zone</h2>
+      <p>What is the capital of India?</p>
+      <button id="answer1">Mumbai</button>
+      <button id="answer2">New Delhi</button>
+      <p id="quizMessage"></p>
+    `;
+
+    document.getElementById("answer1").addEventListener("click", function () {
+      document.getElementById("quizMessage").textContent = "❌ Try again!";
+    });
+
+    document.getElementById("answer2").addEventListener("click", function () {
+      document.getElementById("quizMessage").textContent = "✅ Correct answer!";
+    });
+  });
+
+  document.getElementById("learnButton").addEventListener("click", function () {
+    content.innerHTML = `
+      <h2>📚 Learning Corner</h2>
+      <p>🌍 India is our country.</p>
+      <p>🌞 The Sun is a star.</p>
+      <p>🌱 Plants need sunlight, water and air.</p>
+      <p>🚀 Keep learning something new every day!</p>
+    `;
+  });
+
+  document.getElementById("drawButton").addEventListener("click", function () {
+    content.innerHTML = `
+      <h2>🎨 Drawing Corner</h2>
+      <input type="color" id="colorPicker" value="#6c5ce7">
+      <br>
+      <canvas id="canvas" width="300" height="250"
+        style="border:2px solid #888;max-width:100%;touch-action:none">
+      </canvas>
+      <br>
+      <button id="clearCanvas">Clear Drawing</button>
+    `;
+
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+    let drawing = false;
+
+    canvas.addEventListener("pointerdown", function (event) {
+      drawing = true;
+      const rect = canvas.getBoundingClientRect();
+      ctx.beginPath();
+      ctx.moveTo(
+        (event.clientX - rect.left) * canvas.width / rect.width,
+        (event.clientY - rect.top) * canvas.height / rect.height
+      );
+      canvas.setPointerCapture(event.pointerId);
+    });
+
+    canvas.addEventListener("pointermove", function (event) {
+      if (!drawing) return;
+
+      const rect = canvas.getBoundingClientRect();
+      ctx.lineWidth = 4;
+      ctx.lineCap = "round";
+      ctx.strokeStyle = document.getElementById("colorPicker").value;
+
+      ctx.lineTo(
+        (event.clientX - rect.left) * canvas.width / rect.width,
+        (event.clientY - rect.top) * canvas.height / rect.height
+      );
+
+      ctx.stroke();
+    });
+
+    function stopDrawing() {
+      drawing = false;
+    }
+
+    canvas.addEventListener("pointerup", stopDrawing);
+    canvas.addEventListener("pointercancel", stopDrawing);
+
+    document.getElementById("clearCanvas").addEventListener("click", function () {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
