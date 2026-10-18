@@ -3,224 +3,347 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Kids Cartoon World</title>
 
 <style>
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
   font-family: Arial, sans-serif;
   text-align: center;
-  background: linear-gradient(135deg, #fff0a8, #ffc8e8, #b8f3ff);
-  color: #333;
+  color: #27304f;
+  background: linear-gradient(135deg, #fff4b8, #ffd6ee, #c8f7ff);
 }
 
 header {
   padding: 28px 12px;
-  background: #7c4dff;
+  background: #7148e8;
   color: white;
-  border-bottom: 6px solid #ffcf40;
 }
 
-header h1 {
-  font-size: 34px;
+header h1 { font-size: 35px; }
+
+nav {
+  position: sticky;
+  top: 0;
+  padding: 12px;
+  background: white;
+  z-index: 5;
+}
+
+nav a {
+  display: inline-block;
   margin: 5px;
-}
-
-header p {
-  font-size: 17px;
+  color: #7148e8;
+  font-weight: bold;
+  text-decoration: none;
 }
 
 .card {
-  background: white;
-  max-width: 550px;
-  margin: 22px auto;
+  width: 92%;
+  max-width: 650px;
+  margin: 24px auto;
   padding: 22px;
-  width: 90%;
+  background: white;
   border-radius: 22px;
   box-shadow: 0 5px 15px #0002;
 }
 
-.emoji {
-  font-size: 45px;
-}
+h2 { color: #7148e8; }
 
-h2 {
-  color: #7c4dff;
+button, select {
+  padding: 12px 16px;
+  margin: 6px;
+  border: none;
+  border-radius: 14px;
+  font-size: 16px;
 }
 
 button {
-  background: #ff7043;
+  background: #ff784e;
   color: white;
-  border: none;
-  padding: 12px 20px;
-  border-radius: 25px;
-  font-size: 17px;
   cursor: pointer;
-  margin: 6px;
 }
 
-button:hover {
-  background: #e64a19;
-}
+button:hover { transform: scale(1.03); }
 
-.answer {
-  background: #e8f5e9;
-  border: 2px solid #81c784;
-  color: #256029;
+.option {
+  display: block;
+  width: 90%;
+  max-width: 350px;
+  margin: 10px auto;
+  background: #e9e1ff;
+  color: #33245e;
 }
 
 #feedback {
-  font-size: 20px;
+  font-size: 19px;
   font-weight: bold;
+  min-height: 25px;
 }
 
-footer {
-  padding: 20px;
-  background: #7c4dff;
-  color: white;
+#drawing {
+  width: 100%;
+  max-width: 500px;
+  height: 300px;
+  border: 3px dashed #7148e8;
+  border-radius: 12px;
+  background: white;
+  touch-action: none;
 }
+
+.learn-button { background: #24a879; }
+
+footer {
+  background: #7148e8;
+  color: white;
+  padding: 20px;
+}
+
+.small { font-size: 14px; }
 </style>
 </head>
 
 <body>
 
 <header>
-  <div class="emoji">🦄 🌈 🐻</div>
+  <div style="font-size:45px">🦄 🐻 🌈</div>
   <h1>Kids Cartoon World</h1>
-  <p>A magical world of fun and learning!</p>
+  <p>Play, Learn, Draw and Have Fun!</p>
 </header>
 
-<section class="card">
-  <div class="emoji">🎨</div>
-  <h2>Drawing Time</h2>
-  <p>Use your imagination and draw your favourite animals!</p>
-  <p>🐱 🐶 🐰 🦋</p>
-</section>
+<nav>
+  <a href="#quiz">🧠 Quiz</a>
+  <a href="#drawing-time">🎨 Drawing</a>
+  <a href="#learning">📚 Learning</a>
+</nav>
 
-<section class="card">
-  <div class="emoji">🧠</div>
-  <h2>Fun Quiz Game</h2>
-  <p id="question">1. What is the colour of the sky on a clear day?</p>
+<section class="card" id="quiz">
+  <h2>🧠 Super Quiz Challenge</h2>
+  <p>Choose a level and test your knowledge!</p>
 
-  <div id="options">
-    <button onclick="checkAnswer(0)">Green</button>
-    <button onclick="checkAnswer(1)">Blue</button>
-    <button onclick="checkAnswer(2)">Red</button>
-  </div>
+  <select id="level" onchange="startQuiz()">
+    <option value="Easy">Easy</option>
+    <option value="Medium">Medium</option>
+    <option value="Hard">Hard</option>
+  </select>
 
+  <p id="progress">Ready to play?</p>
+  <h3 id="question">Press Start Quiz!</h3>
+  <div id="options"></div>
   <p id="feedback"></p>
   <p id="score">⭐ Score: 0</p>
-  <button id="next" onclick="nextQuestion()" style="display:none">
-    Next Question ➡️
-  </button>
+
+  <button onclick="startQuiz()">Start / Next Round 🔄</button>
+  <p class="small">Questions are randomly selected. Some may repeat in future rounds.</p>
 </section>
 
-<section class="card">
-  <div class="emoji">📚</div>
-  <h2>Learning Corner</h2>
-  <p>Learn something new every day!</p>
-  <p>🌍 Nature • 🔢 Numbers • 🔤 Alphabet</p>
+<section class="card" id="drawing-time">
+  <h2>🎨 Drawing Time</h2>
+  <p>Draw anything you like! Use your finger on a phone.</p>
+
+  <canvas id="drawing" width="500" height="300"></canvas>
+  <br>
+
+  <label>Brush colour:
+    <input type="color" id="brushColor" value="#ff4081">
+  </label>
+
+  <label>Brush size:
+    <input type="range" id="brushSize" min="2" max="20" value="5">
+  </label>
+
+  <br>
+  <button onclick="clearDrawing()">Clear Drawing 🧹</button>
+  <button onclick="downloadDrawing()">Save Drawing 📥</button>
+</section>
+
+<section class="card" id="learning">
+  <h2>📚 Learning Corner</h2>
+  <p>Choose something fun to learn!</p>
+
+  <button class="learn-button" onclick="learn('alphabet')">🔤 Alphabet</button>
+  <button class="learn-button" onclick="learn('maths')">🔢 Maths</button>
+  <button class="learn-button" onclick="learn('science')">🔬 Science</button>
+  <button class="learn-button" onclick="learn('animals')">🐾 Animals</button>
+
+  <div id="lesson" style="margin-top:20px;font-size:18px">
+    Select a topic to start learning!
+  </div>
 </section>
 
 <footer>
-  <p>Made with ❤️ for little learners!</p>
+  <p>Made with ❤️ for curious kids!</p>
+  <p>Keep learning, keep smiling!</p>
 </footer>
 
 <script>
-const questions = [
-  {
-    q: "1. What is the colour of the sky on a clear day?",
-    options: ["Green", "Blue", "Red"],
-    answer: 1
-  },
-  {
-    q: "2. How many legs does a spider have?",
-    options: ["Six", "Eight", "Four"],
-    answer: 1
-  },
-  {
-    q: "3. Which animal says Meow?",
-    options: ["Cat", "Cow", "Dog"],
-    answer: 0
-  },
-  {
-    q: "4. How many days are there in a week?",
-    options: ["Five", "Seven", "Ten"],
-    answer: 1
-  },
-  {
-    q: "5. Which planet do we live on?",
-    options: ["Mars", "Jupiter", "Earth"],
-    answer: 2
-  }
-];
+const bank = {
+Easy: [
+{q:"Which planet do we live on?",o:["Earth","Mars","Venus","Jupiter"],a:0},
+{q:"How many days are in a week?",o:["5","6","7","8"],a:2},
+{q:"Which animal says Meow?",o:["Dog","Cat","Cow","Horse"],a:1},
+{q:"What is 8 + 7?",o:["13","14","15","16"],a:2},
+{q:"Which star gives Earth light?",o:["Polaris","The Sun","Sirius","Vega"],a:1},
+{q:"How many legs does a spider have?",o:["6","8","10","4"],a:1},
+{q:"Which is a fruit?",o:["Carrot","Potato","Apple","Onion"],a:2},
+{q:"What is the opposite of hot?",o:["Warm","Cold","Dry","Bright"],a:1},
+{q:"Which animal is called the king of the jungle?",o:["Tiger","Lion","Elephant","Bear"],a:1},
+{q:"How many months are in a year?",o:["10","11","12","13"],a:2}
+],
 
-let current = 0;
-let points = 0;
+Medium: [
+{q:"Which gas do plants absorb during photosynthesis?",o:["Oxygen","Carbon dioxide","Nitrogen","Hydrogen"],a:1},
+{q:"What is 12 × 8?",o:["86","94","96","108"],a:2},
+{q:"What is the largest ocean?",o:["Indian","Atlantic","Arctic","Pacific"],a:3},
+{q:"Which organ pumps blood around the body?",o:["Lungs","Heart","Brain","Kidney"],a:1},
+{q:"What is the square of 13?",o:["156","169","179","196"],a:1},
+{q:"Which part of a plant absorbs water?",o:["Flower","Leaf","Root","Fruit"],a:2},
+{q:"How many sides does a hexagon have?",o:["5","6","7","8"],a:1},
+{q:"What is the chemical formula of water?",o:["CO2","O2","H2O","NaCl"],a:2},
+{q:"Which is the closest star to Earth?",o:["Sun","Sirius","Polaris","Proxima Centauri"],a:0},
+{q:"What is 144 divided by 12?",o:["10","11","12","14"],a:2}
+],
+
+Hard: [
+{q:"What is the square root of 2025?",o:["35","40","45","55"],a:2},
+{q:"Which cell organelle produces most cellular ATP?",o:["Nucleus","Mitochondrion","Ribosome","Golgi apparatus"],a:1},
+{q:"What is the SI unit of force?",o:["Joule","Watt","Newton","Pascal"],a:2},
+{q:"If 3x + 5 = 26, what is x?",o:["5","6","7","8"],a:2},
+{q:"Which blood cells mainly transport oxygen?",o:["Red blood cells","White blood cells","Platelets","Neurons"],a:0},
+{q:"What is the approximate value of pi to 2 decimal places?",o:["3.12","3.14","3.41","3.44"],a:1},
+{q:"Which gas is most abundant in Earth's atmosphere?",o:["Oxygen","Carbon dioxide","Nitrogen","Hydrogen"],a:2},
+{q:"What is the chemical symbol for potassium?",o:["P","Po","K","Pt"],a:2},
+{q:"Which tissue transports water in plants?",o:["Phloem","Xylem","Epidermis","Collenchyma"],a:1},
+{q:"What is the cube of 4?",o:["16","32","48","64"],a:3}
+]
+};
+
+let score = 0;
+let total = 0;
+let current = null;
 let answered = false;
+let seen = {Easy:[], Medium:[], Hard:[]};
 
-function showQuestion() {
+function startQuiz() {
+  const level = document.getElementById("level").value;
+  const questions = bank[level];
+
+  if (seen[level].length === questions.length) {
+    seen[level] = [];
+    document.getElementById("feedback").textContent =
+      "🎉 All questions in this level completed! Starting a fresh round.";
+  } else {
+    document.getElementById("feedback").textContent = "";
+  }
+
+  const available = questions
+    .map((q,i)=>i)
+    .filter(i=>!seen[level].includes(i));
+
+  const index = available[Math.floor(Math.random()*available.length)];
+  seen[level].push(index);
+  current = questions[index];
   answered = false;
-  document.getElementById("question").textContent =
-    questions[current].q;
 
-  document.getElementById("feedback").textContent = "";
-  document.getElementById("next").style.display = "none";
+  document.getElementById("question").textContent = current.q;
+  document.getElementById("progress").textContent =
+    level + " Level • " + seen[level].length + "/" + questions.length;
 
-  const options = document.getElementById("options");
-  options.innerHTML = "";
+  const box = document.getElementById("options");
+  box.innerHTML = "";
 
-  questions[current].options.forEach((option, index) => {
-    const button = document.createElement("button");
-    button.textContent = option;
-    button.onclick = () => checkAnswer(index);
-    options.appendChild(button);
+  current.o.forEach((option,i)=>{
+    const btn = document.createElement("button");
+    btn.className = "option";
+    btn.textContent = option;
+    btn.onclick = ()=>checkAnswer(i);
+    box.appendChild(btn);
   });
+
+  document.getElementById("score").textContent =
+    "⭐ Score: " + score + " / " + total;
 }
 
 function checkAnswer(choice) {
-  if (answered) return;
+  if (!current || answered) return;
   answered = true;
+  total++;
 
-  const feedback = document.getElementById("feedback");
+  const correct = choice === current.a;
+  if (correct) score++;
 
-  if (choice === questions[current].answer) {
-    points++;
-    feedback.textContent = "🎉 Correct! Great job!";
-    feedback.style.color = "green";
-  } else {
-    feedback.textContent =
-      "😊 Good try! Answer: " +
-      questions[current].options[questions[current].answer];
-    feedback.style.color = "#e65100";
-  }
+  document.getElementById("feedback").textContent =
+    correct ? "🎉 Correct! Amazing work!" :
+    "😊 Good try! Correct answer: " + current.o[current.a];
 
   document.getElementById("score").textContent =
-    "⭐ Score: " + points + " / " + (current + 1);
+    "⭐ Score: " + score + " / " + total;
 
-  if (current < questions.length - 1) {
-    document.getElementById("next").style.display = "inline-block";
-  } else {
-    document.getElementById("next").textContent = "Play Again 🔄";
-    document.getElementById("next").style.display = "inline-block";
-  }
+  document.querySelectorAll(".option").forEach(btn=>{
+    btn.disabled = true;
+  });
 }
 
-function nextQuestion() {
-  if (current === questions.length - 1) {
-    current = 0;
-    points = 0;
-    document.getElementById("score").textContent = "⭐ Score: 0";
-  } else {
-    current++;
-  }
+// Drawing canvas
+const canvas = document.getElementById("drawing");
+const ctx = canvas.getContext("2d");
+let drawing = false;
 
-  document.getElementById("next").textContent = "Next Question ➡️";
-  showQuestion();
+ctx.lineCap = "round";
+ctx.lineJoin = "round";
+
+function position(e) {
+  const r = canvas.getBoundingClientRect();
+  return {
+    x:(e.clientX-r.left)*canvas.width/r.width,
+    y:(e.clientY-r.top)*canvas.height/r.height
+  };
+}
+
+canvas.addEventListener("pointerdown",e=>{
+  drawing = true;
+  canvas.setPointerCapture(e.pointerId);
+  const p = position(e);
+  ctx.beginPath();
+  ctx.moveTo(p.x,p.y);
+});
+
+canvas.addEventListener("pointermove",e=>{
+  if (!drawing) return;
+  const p = position(e);
+  ctx.strokeStyle = document.getElementById("brushColor").value;
+  ctx.lineWidth = document.getElementById("brushSize").value;
+  ctx.lineTo(p.x,p.y);
+  ctx.stroke();
+});
+
+canvas.addEventListener("pointerup",()=>drawing=false);
+canvas.addEventListener("pointercancel",()=>drawing=false);
+
+function clearDrawing() {
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+}
+
+function downloadDrawing() {
+  const link = document.createElement("a");
+  link.download = "my-kids-drawing.png";
+  link.href = canvas.toDataURL("image/png");
+  link.click();
+}
+
+// Learning Corner
+const lessons = {
+alphabet: "<h3>🔤 Alphabet Fun</h3><p>A is for Apple 🍎</p><p>B is for Ball ⚽</p><p>C is for Cat 🐱</p><p>D is for Dog 🐶</p><p>E is for Elephant 🐘</p>",
+maths: "<h3>🔢 Maths Fun</h3><p>5 + 3 = 8</p><p>9 - 4 = 5</p><p>6 × 2 = 12</p><p>20 ÷ 4 = 5</p>",
+science: "<h3>🔬 Science Fun</h3><p>🌱 Plants need sunlight and water to grow.</p><p>🌍 Earth is our home planet.</p><p>💧 Water freezes into ice when sufficiently cooled.</p>",
+animals: "<h3>🐾 Animal World</h3><p>🐘 Elephant: a large land animal.</p><p>🐬 Dolphin: a marine mammal.</p><p>🦋 Butterfly: an insect with colourful wings.</p><p>🐧 Penguin: a bird that cannot fly.</p>"
+};
+
+function learn(topic) {
+  document.getElementById("lesson").innerHTML = lessons[topic];
 }
 </script>
 
