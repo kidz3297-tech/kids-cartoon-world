@@ -4,73 +4,225 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kids Cartoon World</title>
+
 <style>
+* {
+  box-sizing: border-box;
+}
+
 body {
+  margin: 0;
   font-family: Arial, sans-serif;
   text-align: center;
-  background: #fff4d6;
-  margin: 0;
+  background: linear-gradient(135deg, #fff0a8, #ffc8e8, #b8f3ff);
+  color: #333;
 }
+
 header {
-  background: #ff7043;
+  padding: 28px 12px;
+  background: #7c4dff;
   color: white;
-  padding: 25px;
+  border-bottom: 6px solid #ffcf40;
 }
-h2 { color: #6a1b9a; }
+
+header h1 {
+  font-size: 34px;
+  margin: 5px;
+}
+
+header p {
+  font-size: 17px;
+}
+
 .card {
   background: white;
-  margin: 20px;
-  padding: 20px;
-  border-radius: 15px;
+  max-width: 550px;
+  margin: 22px auto;
+  padding: 22px;
+  width: 90%;
+  border-radius: 22px;
+  box-shadow: 0 5px 15px #0002;
 }
+
+.emoji {
+  font-size: 45px;
+}
+
+h2 {
+  color: #7c4dff;
+}
+
 button {
-  background: #4caf50;
+  background: #ff7043;
   color: white;
   border: none;
   padding: 12px 20px;
-  border-radius: 8px;
+  border-radius: 25px;
+  font-size: 17px;
+  cursor: pointer;
+  margin: 6px;
 }
+
+button:hover {
+  background: #e64a19;
+}
+
+.answer {
+  background: #e8f5e9;
+  border: 2px solid #81c784;
+  color: #256029;
+}
+
+#feedback {
+  font-size: 20px;
+  font-weight: bold;
+}
+
 footer {
-  background: #333;
+  padding: 20px;
+  background: #7c4dff;
   color: white;
-  padding: 15px;
 }
 </style>
 </head>
+
 <body>
 
 <header>
-<h1>🌈 Kids Cartoon World 🎈</h1>
-<p>Fun, Learning and Adventures!</p>
+  <div class="emoji">🦄 🌈 🐻</div>
+  <h1>Kids Cartoon World</h1>
+  <p>A magical world of fun and learning!</p>
 </header>
 
-<div class="card">
-<h2>🐰 Welcome, Kids!</h2>
-<p>Welcome to a magical world of fun and learning.</p>
-</div>
+<section class="card">
+  <div class="emoji">🎨</div>
+  <h2>Drawing Time</h2>
+  <p>Use your imagination and draw your favourite animals!</p>
+  <p>🐱 🐶 🐰 🦋</p>
+</section>
 
-<div class="card">
-<h2>🎨 Drawing Time</h2>
-<p>Learn to draw your favourite animals and cartoons!</p>
-</div>
+<section class="card">
+  <div class="emoji">🧠</div>
+  <h2>Fun Quiz Game</h2>
+  <p id="question">1. What is the colour of the sky on a clear day?</p>
 
-<div class="card">
-<h2>🧠 Fun Quiz</h2>
-<p>What is the colour of the sky on a clear day?</p>
-<button onclick="alert('Correct answer: Blue! 🎉')">
-See Answer
-</button>
-</div>
+  <div id="options">
+    <button onclick="checkAnswer(0)">Green</button>
+    <button onclick="checkAnswer(1)">Blue</button>
+    <button onclick="checkAnswer(2)">Red</button>
+  </div>
 
-<div class="card">
-<h2>⭐ Learning Corner</h2>
-<p>Learn numbers, colours, animals and ABCs.</p>
-</div>
+  <p id="feedback"></p>
+  <p id="score">⭐ Score: 0</p>
+  <button id="next" onclick="nextQuestion()" style="display:none">
+    Next Question ➡️
+  </button>
+</section>
+
+<section class="card">
+  <div class="emoji">📚</div>
+  <h2>Learning Corner</h2>
+  <p>Learn something new every day!</p>
+  <p>🌍 Nature • 🔢 Numbers • 🔤 Alphabet</p>
+</section>
 
 <footer>
-<p>© Kids Cartoon World</p>
-<p>Learn, Play and Smile! 😊</p>
+  <p>Made with ❤️ for little learners!</p>
 </footer>
+
+<script>
+const questions = [
+  {
+    q: "1. What is the colour of the sky on a clear day?",
+    options: ["Green", "Blue", "Red"],
+    answer: 1
+  },
+  {
+    q: "2. How many legs does a spider have?",
+    options: ["Six", "Eight", "Four"],
+    answer: 1
+  },
+  {
+    q: "3. Which animal says Meow?",
+    options: ["Cat", "Cow", "Dog"],
+    answer: 0
+  },
+  {
+    q: "4. How many days are there in a week?",
+    options: ["Five", "Seven", "Ten"],
+    answer: 1
+  },
+  {
+    q: "5. Which planet do we live on?",
+    options: ["Mars", "Jupiter", "Earth"],
+    answer: 2
+  }
+];
+
+let current = 0;
+let points = 0;
+let answered = false;
+
+function showQuestion() {
+  answered = false;
+  document.getElementById("question").textContent =
+    questions[current].q;
+
+  document.getElementById("feedback").textContent = "";
+  document.getElementById("next").style.display = "none";
+
+  const options = document.getElementById("options");
+  options.innerHTML = "";
+
+  questions[current].options.forEach((option, index) => {
+    const button = document.createElement("button");
+    button.textContent = option;
+    button.onclick = () => checkAnswer(index);
+    options.appendChild(button);
+  });
+}
+
+function checkAnswer(choice) {
+  if (answered) return;
+  answered = true;
+
+  const feedback = document.getElementById("feedback");
+
+  if (choice === questions[current].answer) {
+    points++;
+    feedback.textContent = "🎉 Correct! Great job!";
+    feedback.style.color = "green";
+  } else {
+    feedback.textContent =
+      "😊 Good try! Answer: " +
+      questions[current].options[questions[current].answer];
+    feedback.style.color = "#e65100";
+  }
+
+  document.getElementById("score").textContent =
+    "⭐ Score: " + points + " / " + (current + 1);
+
+  if (current < questions.length - 1) {
+    document.getElementById("next").style.display = "inline-block";
+  } else {
+    document.getElementById("next").textContent = "Play Again 🔄";
+    document.getElementById("next").style.display = "inline-block";
+  }
+}
+
+function nextQuestion() {
+  if (current === questions.length - 1) {
+    current = 0;
+    points = 0;
+    document.getElementById("score").textContent = "⭐ Score: 0";
+  } else {
+    current++;
+  }
+
+  document.getElementById("next").textContent = "Next Question ➡️";
+  showQuestion();
+}
+</script>
 
 </body>
 </html>
